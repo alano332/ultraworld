@@ -157,6 +157,9 @@ savedata sd("serverdata.dat", "server_data");
 const string prefskey = "charbhoom";
 dictionary d, d2;
 http httpn;
+dictionary ip_conn_counts;
+dictionary peer_ip_map;
+const int MAX_CONNS_PER_IP = 5;
 //mapispawn@[] mapispawns;
 //mapai@[] mapais;
 application app;
@@ -958,7 +961,35 @@ msgs.insert_last("contribute to our game at: https://github.com/amirmahdifard/ul
 		send_reliable(0, "notify_startrek_chime " + msgs[frase], 0);
 	}
 	while ((e = n.request()).type != event_none) {
+		if (e.type == event_connect) {
+			string ip = n.get_peer_address(e.peer_id);
+			int count = 0;
+			string cs = "0";
+			if(ip_conn_counts.exists(ip)){
+				ip_conn_counts.get(ip, cs);
+				count = string_to_number(cs);
+			}
+			if(count >= MAX_CONNS_PER_IP){
+				n.disconnect_peer(e.peer_id);
+				continue;
+			}
+			count++;
+			ip_conn_counts.set(ip, ""+count);
+			peer_ip_map.set(""+e.peer_id, ip);
+		}
 		if (e.type == event_disconnect) {
+			string ip;
+			if(peer_ip_map.exists(""+e.peer_id)){
+				peer_ip_map.get(""+e.peer_id, ip);
+				peer_ip_map.delete(""+e.peer_id);
+				if(ip_conn_counts.exists(ip)){
+					string cs;
+					ip_conn_counts.get(ip, cs);
+					int count = string_to_number(cs);
+					if(count > 0) count--;
+					ip_conn_counts.set(ip, ""+count);
+				}
+			}
 			int index = get_player_index(e.peer_id);
 			authenticated_peers.delete("" + e.peer_id);
 			if (index > -1) {
