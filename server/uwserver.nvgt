@@ -1,4 +1,4 @@
-string[] devs = {"patricus", "kannadiga"};
+string[] devs = {"James", "kannadiga"};
 const string sndtype = ".ogg";
 #pragma asset "rules"
 #pragma asset "readme.txt"
@@ -7,7 +7,7 @@ const string sndtype = ".ogg";
 #pragma asset "commands.md"
 #include "includes.nvgt"
 const string deflang = "English";
-dictionary descryptions;
+dictionary descriptions;
 dictionary authenticated_peers;
 string bell = ascii_to_character(7);
 string bell2 = ascii_to_character(9);
@@ -950,7 +950,7 @@ void netloop() {
 		divulgar.restart();
 		string[] msgs;
 		msgs.insert_last("Please log in at least once in 6 months to avoid your account and house being destroyed");
-		msgs.insert_last("If you need help, press f7 to send a message to the staff. dont send irrelivent messages.");
+		msgs.insert_last("If you need help, press f7 to send a message to the staff. don't send irrelivent messages.");
 		msgs.insert_last("Love this game? share it to your friends too: https://uw.posix.live");
 		msgs.insert_last("join us on telegram to discuss more about the game: https://t.me/+87hXLwoqOvM4M2Zl");
 		msgs.insert_last("Teleporters can be used to remove yourself from an unknown area by pressing ault v and pressing backspace to choose where you want to go.");
@@ -1041,7 +1041,7 @@ msgs.insert_last("contribute to our game at: https://github.com/amirmahdifard/ul
 						move_player(players[index], "main_map", newx, newy, newz);
 						arenas[i2].joined--;
 						int amath = arenas[i2].length - arenas[i2].joined;
-						if (arenas[i2].length > 1) send_reliable(0, "arena " + players[index].name + " has escaped from " + arenas[i2].owner + "'s " + arenas[i2].type + " Arena. " + amath + " participators stil left.", 0);
+						if (arenas[i2].length > 1) send_reliable(0, "arena " + players[index].name + " has escaped from " + arenas[i2].owner + "'s " + arenas[i2].type + " Arena. " + amath + " participants still left.", 0);
 						else send_reliable(0, "arena " + players[index].name + " has escaped from " + arenas[i2].owner + "'s " + arenas[i2].type + " Arena", 0);
 						if (players[index].pvpd == 1 and players[index].pvp == 1) {
 							players[index].pvp = 0;
@@ -1653,7 +1653,7 @@ void setupserver() {
 	tlps.insert_last("large mountain:mountain_to_go_dragon_cave");
 	tlps.insert_last("elision sea shore:sea_twords_mountain");
 	tlps.insert_last("the hunting map:new_zealand_hunting");
-	tlps.insert_last("the residencial area:residencial_area_ml");
+	tlps.insert_last("the residential area:residencial_area_ml");
 	create_store("clothing_store");
 	create_store("weapon_store");
 	create_store("fastfood_store");
@@ -4062,7 +4062,7 @@ void givexp(player@ p, double amount) {
 	p.xp += gained;
 	send_reliable(p, "you got " + gained + " experience", 2);
 }
-void loosxp(player@ p, double amount) {
+void losexp(player@ p, double amount) {
 	// No partner set
 	if (p.partner == "") {
 		p.xp -= amount;
@@ -4093,26 +4093,26 @@ void load_descriptions() {
 		for (uint i = 0; i < lines.length(); i++) {
 			string[] parsed = string_split(lines[i], "=", false);
 			if (parsed.length() > 1)
-				descryptions.set(parsed[0], parsed[1]);
+				descriptions.set(parsed[0], parsed[1]);
 		}
 	}
 }
 void save_descriptions() {
 	file f;
 	f.open("item_descriptions.svr", "wb");
-	string[] keys = descryptions.get_keys();
+	string[] keys = descriptions.get_keys();
 	for (uint i = 0; i < keys.length(); i++) {
 		string value;
-		descryptions.get(keys[i], value);
+		descriptions.get(keys[i], value);
 		f.write(keys[i] + "=" + value + "\r\n");
 	}
 	f.close();
 }
-string get_item_descryption(string itemname) {
-	if (descryptions.exists(itemname) == false) return "No description available for " + itemname;
+string get_item_description(string itemname) {
+	if (descriptions.exists(itemname) == false) return "No description available for " + itemname;
 	else {
 		string temp;
-		descryptions.get(itemname, temp);
+		descriptions.get(itemname, temp);
 		return temp;
 	}
 }

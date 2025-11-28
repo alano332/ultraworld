@@ -1516,7 +1516,7 @@ class player {
 						weapon_name = "fists";
 						arenas[i2].joined--;
 						int amath = arenas[i2].length - arenas[i2].joined;
-						if (arenas[i2].length > 1) send_reliable(0, "arena " + name + " has been defeated in " + arenas[i2].owner + "'s " + arenas[i2].type + " Arena. " + amath + "  participators stil left.", 0);
+						if (arenas[i2].length > 1) send_reliable(0, "arena " + name + " has been defeated in " + arenas[i2].owner + "'s " + arenas[i2].type + " Arena. " + amath + "  participants still left.", 0);
 						else send_reliable(0, "arena " + name + " has been defeated in " + arenas[i2].owner + "'s " + arenas[i2].type + " Arena", 0);
 						if (pvpd == 1 and pvp == 1) {
 							pvp = 0;
@@ -1567,7 +1567,7 @@ class player {
 						players[k].inv_add_item("coins", extracoins);
 						players[k].kills += 1;
 						send_reliable(players[k], "tweetkill " + nickname, 0);
-						loosxp(players[i], random(1000, 8000)*reinforcement);
+						losexp(players[i], random(1000, 8000)*reinforcement);
 						givexp(players[k], random(1000, 8000)*players[k].reinforcement);
 						int tm = is_in_team(players[k].name);
 						if (tm > -1 and !are_teamed(name, players[k].name)) {
@@ -2074,7 +2074,7 @@ void remove_player(string name, bool got_kicked = false, bool lost = false) {
 			players[i].drunk = false;
 			players[i].weapon_name = "fists";
 			int amath = arenas[i2].length - arenas[i2].joined;
-			if (arenas[i2].length > 1) send_reliable(0, "arena " + players[i].name + " has escaped from " + arenas[i2].owner + "'s " + arenas[i2].type + " Arena. " + amath + " participators stil left.", 0);
+			if (arenas[i2].length > 1) send_reliable(0, "arena " + players[i].name + " has escaped from " + arenas[i2].owner + "'s " + arenas[i2].type + " Arena. " + amath + " participants still left.", 0);
 			else send_reliable(0, "arena " + players[i].name + " has escaped from " + arenas[i2].owner + "'s " + arenas[i2].type + " Arena", 0);
 			if (players[i].pvpd == 1 and players[i].pvp == 1) {
 				players[i].pvp = 0;
